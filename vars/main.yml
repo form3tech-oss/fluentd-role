@@ -1,2 +1,2 @@
 ---
-fluentd_required_libs: ["ruby", "ruby-dev"]
+fluentd_required_libs: ["gcc", "make", "ruby", "ruby-dev"]
