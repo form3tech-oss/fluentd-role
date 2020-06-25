@@ -15,6 +15,7 @@ fluentd_plugins_required_libs: []
 # Service variables
 fluentd_service_state: started # current state: started, stopped, restarted, reloaded
 fluentd_service_enabled: yes # yes, no
+fluentd_service_environment: [] # list of strings: ENV_NAME=value
 
 # Templates path
 fluentd_playbook_templates_path: "{{ playbook_dir }}/templates/fluentd"

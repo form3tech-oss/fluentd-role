@@ -15,5 +15,9 @@ ExecStop=/bin/kill $MAINPID
 Restart=always
 KillSignal=SIGTERM
 
+{% for env_var in fluentd_service_environment %}
+Environment={{ env_var }}
+{% endfor %}
+
 [Install]
 WantedBy=multi-user.target
