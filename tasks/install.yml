@@ -12,9 +12,9 @@
     groups: "{{ fluentd_secondary_groups }}"
 
 - name: FLUENTD | Install required libs
-  apt:
+  package:
     name: "{{ fluentd_required_libs }}"
-    update_cache: yes
+    state: latest
 
 - name: FLUENTD | Install fluentd gem
   gem:
@@ -25,9 +25,9 @@
   notify: restart fluentd
 
 - name: FLUENTD | Install plugin required libs
-  apt:
+  package:
     name: "{{ item }}"
-    update_cache: yes
+    state: latest
   with_items: "{{ fluentd_plugins_required_libs }}"
 
 - name: FLUENTD | Install fluentd plugin gems
