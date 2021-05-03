@@ -14,7 +14,7 @@
 - name: FLUENTD | Install required libs
   package:
     name: "{{ fluentd_required_libs }}"
-    state: latest
+    state: present
 
 - name: FLUENTD | Install fluentd gem
   gem:
@@ -27,7 +27,7 @@
 - name: FLUENTD | Install plugin required libs
   package:
     name: "{{ item }}"
-    state: latest
+    state: present
   with_items: "{{ fluentd_plugins_required_libs }}"
 
 - name: FLUENTD | Install fluentd plugin gems
