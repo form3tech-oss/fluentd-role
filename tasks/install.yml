@@ -1,9 +1,8 @@
 ---
 
-- name: FLUENTD | Load vars
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "../vars/{{ ansible_distribution }}.yml"
+- name: FLUENTD | Show facts available on the system
+  ansible.builtin.debug:
+    var: ansible_facts
 
 - name: FLUENTD | Create fluentd group
   group:
@@ -16,10 +15,19 @@
     group: "{{ fluentd_group }}"
     groups: "{{ fluentd_secondary_groups }}"
 
-- name: FLUENTD | Install required libs
-  package:
-    name: "{{ fluentd_required_libs }}"
-    state: present
+- name: FLUENTD | Install required libs on Debian/Ubuntu
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items: ["gcc", "make", "ruby", "ruby-dev"]
+  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+
+- name: FLUENTD | Install required libs on CentOS/Amazon
+  yum:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items: ["gcc", "make", "ruby", "ruby-devel"]
+  when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "Amazon")
 
 - name: FLUENTD | Install fluentd gem
   gem:
@@ -28,12 +36,6 @@
     version: "{{ fluentd_version }}"
     user_install: no
   notify: restart fluentd
-
-- name: FLUENTD | Install plugin required libs
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ fluentd_plugins_required_libs }}"
 
 - name: FLUENTD | Install fluentd plugin gems
   gem:
