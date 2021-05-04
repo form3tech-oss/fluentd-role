@@ -1,5 +1,10 @@
 ---
 
+- name: FLUENTD | Load vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../vars/{{ ansible_distribution }}.yml"
+
 - name: FLUENTD | Create fluentd group
   group:
     name: "{{ fluentd_group }}"
