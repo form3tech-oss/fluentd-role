@@ -1,9 +1,5 @@
 ---
 
-- name: FLUENTD | Show facts available on the system
-  ansible.builtin.debug:
-    var: ansible_facts
-
 - name: FLUENTD | Create fluentd group
   group:
     name: "{{ fluentd_group }}"
