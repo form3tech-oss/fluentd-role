@@ -53,7 +53,7 @@ user:
     groups:
     - fluentd
     home: /home/fluentd
-    shell: ""
+    shell: "/bin/sh"
 
 group:
   fluentd:
