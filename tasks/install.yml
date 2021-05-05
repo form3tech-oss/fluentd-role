@@ -11,19 +11,29 @@
     group: "{{ fluentd_group }}"
     groups: "{{ fluentd_secondary_groups }}"
 
-- name: FLUENTD | Install required libs on Debian/Ubuntu
+- name: FLUENTD | Install required libs on Debian
   apt:
     name: "{{ item }}"
     update_cache: yes
   with_items: ["gcc", "make", "ruby", "ruby-dev"]
-  when: (ansible_facts['distribution'] == "Debian") or (ansible_facts['distribution'] == "Ubuntu")
+  when:
+    - ansible_distribution == "Debian"
 
-- name: FLUENTD | Install required libs on CentOS/Amazon
+- name: FLUENTD | Install required libs on Ubuntu
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items: ["gcc", "make", "ruby", "ruby-dev"]
+  when:
+    - ansible_distribution == "Ubuntu"
+
+- name: FLUENTD | Install required libs on Amazon
   yum:
     name: "{{ item }}"
     update_cache: yes
   with_items: ["gcc", "make", "ruby", "ruby-devel"]
-  when: (ansible_facts['distribution'] == "CentOS") or (ansible_facts['distribution'] == "Amazon")
+  when:
+    - ansible_distribution == "Amazon"
 
 - name: FLUENTD | Install fluentd gem
   gem:
