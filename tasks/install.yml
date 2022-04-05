@@ -35,6 +35,14 @@
   when:
     - ansible_distribution == "Amazon"
 
+# TODO Remove pinning yajl-ruby dependency version, after updating to Ubuntu 22.04
+- name: FLUENTD | Install fluentd gem yajl-ruby dependency
+  gem:
+    name: yajl-ruby
+    state: present
+    version: "1.4.1"
+    user_install: no
+
 - name: FLUENTD | Install fluentd gem
   gem:
     name: fluentd
