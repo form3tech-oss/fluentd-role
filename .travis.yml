@@ -9,6 +9,7 @@ services:
 install:
   - pip install ansible==4.10.0
   - pip install molecule==3.6.1
+  - pip install molecule-docker==1.1.0
   - pip install docker
 script:
   - molecule test --driver-name docker
