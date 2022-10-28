@@ -11,4 +11,4 @@ install:
   - pip install molecule==3.6.1
   - pip install docker
 script:
-  - molecule test --driver docker
+  - molecule test --driver-name docker
