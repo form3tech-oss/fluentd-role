@@ -33,7 +33,7 @@ docker:
     - name: fluentd.cont
       ansible_groups:
         - fluentd
-      image: geerlingguy/docker-debian10-ansible
+      image: geerlingguy/docker-debian11-ansible
       image_version: latest
 
       privileged: True
