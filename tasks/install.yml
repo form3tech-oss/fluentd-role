@@ -35,11 +35,18 @@
   when:
     - ansible_distribution == "Amazon"
 
-- name: FLUENTD | Install fluentd gem dependency
-  apt:
-    name: "{{ item }}"
-    update_cache: yes
-  with_items: [ "ruby-ffi", "ruby-ffi-jajl", "ruby-jajl"]
+- name: FLUENTD | Install fluentd gem yajl-ruby dependency
+  gem:
+    name: yajl-ruby
+    state: present
+    user_install: no
+
+- name: FLUENTD | Install fluentd gem ffi dependency
+  gem:
+    name: ffi
+    state: present
+    version: "1.16.3"
+    user_install: no
 
 - name: FLUENTD | Install fluentd gem
   gem:
