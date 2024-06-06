@@ -41,11 +41,11 @@
     state: present
     user_install: no
 
-- name: FLUENTD | Install fluentd gem yajl-ruby dependency
+- name: FLUENTD | Install fluentd gem ffi dependency
   gem:
     name: ffi
     state: present
-    version: "1.17.0"
+    version: "1.16.3"
     user_install: no
 
 - name: FLUENTD | Install fluentd gem
