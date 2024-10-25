@@ -6,7 +6,7 @@
     state: directory
     owner: "{{ fluentd_user }}"
     group: "{{ fluentd_group }}"
-    mode: 0755
+    mode: '0755'
 
 - name: FLUENTD | Create log path
   file:
@@ -14,7 +14,7 @@
     state: directory
     owner: "{{ fluentd_user }}"
     group: "{{ fluentd_group }}"
-    mode: 0755
+    mode: '0755'
 
 - name: FLUENTD | Copy server config
   template:
@@ -22,7 +22,7 @@
     dest: "{{ fluentd_conf_path }}/fluent.conf"
     owner: "{{ fluentd_user }}"
     group: "{{ fluentd_group }}"
-    mode: 0644
+    mode: '0644'
   notify: restart fluentd
 
 - name: FLUENTD | Copy fluentd service config
@@ -31,5 +31,5 @@
     dest: /lib/systemd/system/fluentd.service
     owner: "{{ fluentd_user }}"
     group: "{{ fluentd_group }}"
-    mode: 0755
+    mode: '0755'
   notify: restart fluentd
