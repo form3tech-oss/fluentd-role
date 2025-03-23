@@ -1,15 +1,27 @@
 ---
 - name: FLUENTD | Install
-  include_tasks: install.yml
+  include_tasks: 
+    file: install.yml
+    apply:
+      tags:
+        - install
   tags:
     - install
 
 - name: FLUENTD | Configure
-  include_tasks: config.yml
+  include_tasks: 
+    file: config.yml
+    apply:
+      tags:
+        - configure
   tags:
     - configure
 
 - name: FLUENTD | Service
-  include_tasks: service.yml
+  include_tasks: 
+    file: service.yml
+    apply:
+      tags:
+        - service
   tags:
     - service
