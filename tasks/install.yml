@@ -64,3 +64,12 @@
     user_install: no
   with_items: "{{ fluentd_plugins }}"
   notify: restart fluentd
+
+- name: FLUENTD | Copy fluentd service config
+  template:
+    src: "{{ fluentd_service_template_path }}"
+    dest: /lib/systemd/system/fluentd.service
+    owner: "{{ fluentd_user }}"
+    group: "{{ fluentd_group }}"
+    mode: '0755'
+  notify: restart fluentd
