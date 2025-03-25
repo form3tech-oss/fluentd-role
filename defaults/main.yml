@@ -1,6 +1,6 @@
 # Installation variables
-fluentd_user: fluentd
-fluentd_group: fluentd
+fluentd_user: _fluentd
+fluentd_group: _fluentd
 fluentd_secondary_groups: []
 
 fluentd_version: "1.3.3"
