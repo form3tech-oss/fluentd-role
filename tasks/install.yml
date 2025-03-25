@@ -16,5 +16,6 @@
     version: "{{ item.version }}"
     state: present
     user_install: no
+    executable: "/usr/sbin/fluent-gem"
   with_items: "{{ fluentd_plugins }}"
   notify: restart fluentd
