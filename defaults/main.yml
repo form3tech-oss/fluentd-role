@@ -1,6 +1,6 @@
 # Installation variables
-fluentd_user: fluentd
-fluentd_group: fluentd
+fluentd_user: _fluentd
+fluentd_group: _fluentd
 fluentd_secondary_groups: []
 
 fluentd_version: "1.3.3"
@@ -22,3 +22,5 @@ fluentd_service_environment: [] # list of strings: ENV_NAME=value
 # Templates path
 fluentd_playbook_templates_path: "{{ playbook_dir }}/templates/fluentd"
 fluentd_service_template_path: fluentd/fluentd.service.j2
+
+fluentd_deb_repo_url: "https://packages.treasuredata.com/lts/5/ubuntu/jammy/pool/contrib/f/fluent-lts-apt-source/fluent-lts-apt-source_2025.1.8-1_all.deb"

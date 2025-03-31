@@ -1,60 +1,14 @@
 ---
 
-- name: FLUENTD | Create fluentd group
-  group:
-    name: "{{ fluentd_group }}"
-    state: present
-
-- name: FLUENTD | Create fluentd user
-  user:
-    name: "{{ fluentd_user }}"
-    group: "{{ fluentd_group }}"
-    groups: "{{ fluentd_secondary_groups }}"
-
-- name: FLUENTD | Install required libs on Debian
-  apt:
-    name: "{{ item }}"
+- name: Install repo
+  ansible.builtin.apt:
+    deb: "{{ fluentd_deb_repo_url }}"
     update_cache: yes
-  with_items: ["gcc", "make", "ruby", "ruby-dev"]
-  when:
-    - ansible_distribution == "Debian"
 
-- name: FLUENTD | Install required libs on Ubuntu
-  apt:
-    name: "{{ item }}"
+- name: Install fluentd package
+  ansible.builtin.apt:
+    name: fluent-package
     update_cache: yes
-  with_items: ["gcc", "make", "ruby", "ruby-dev"]
-  when:
-    - ansible_distribution == "Ubuntu"
-
-- name: FLUENTD | Install required libs on Amazon
-  yum:
-    name: "{{ item }}"
-    update_cache: yes
-  with_items: ["gcc", "make", "ruby", "ruby-devel"]
-  when:
-    - ansible_distribution == "Amazon"
-
-- name: FLUENTD | Install fluentd gem yajl-ruby dependency
-  gem:
-    name: yajl-ruby
-    state: present
-    user_install: no
-
-- name: FLUENTD | Install fluentd gem ffi dependency
-  gem:
-    name: ffi
-    state: present
-    version: "1.16.3"
-    user_install: no
-
-- name: FLUENTD | Install fluentd gem
-  gem:
-    name: fluentd
-    state: present
-    version: "{{ fluentd_version }}"
-    user_install: no
-  notify: restart fluentd
 
 - name: FLUENTD | Install fluentd plugin gems
   gem:
@@ -62,14 +16,6 @@
     version: "{{ item.version }}"
     state: present
     user_install: no
+    executable: "/usr/sbin/fluent-gem"
   with_items: "{{ fluentd_plugins }}"
-  notify: restart fluentd
-
-- name: FLUENTD | Copy fluentd service config
-  template:
-    src: "{{ fluentd_service_template_path }}"
-    dest: /lib/systemd/system/fluentd.service
-    owner: "{{ fluentd_user }}"
-    group: "{{ fluentd_group }}"
-    mode: '0755'
   notify: restart fluentd
