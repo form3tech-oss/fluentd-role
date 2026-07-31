@@ -1,14 +1,33 @@
 ---
 
-- name: Install repo
+- name: FLUENTD | Install prerequisites
   ansible.builtin.apt:
-    deb: "{{ fluentd_deb_repo_url }}"
+    name: curl
+    state: present
     update_cache: yes
 
-- name: Install fluentd package
-  ansible.builtin.apt:
-    name: fluent-package
-    update_cache: yes
+- name: FLUENTD | Download fluent-package install script
+  ansible.builtin.get_url:
+    url: "{{ fluentd_install_script_url }}"
+    dest: "{{ fluentd_install_script_dest }}"
+    mode: '0755'
+    force: true
+
+- name: FLUENTD | Install fluent-package
+  # The upstream install script has no shebang line, so it must be invoked
+  # via an explicit interpreter rather than executed directly.
+  ansible.builtin.command: "/bin/sh {{ fluentd_install_script_dest }}"
+  args:
+    creates: "{{ fluentd_install_marker_path }}"
+  notify: restart fluentd
+
+- name: FLUENTD | Add fluentd user to secondary groups
+  ansible.builtin.user:
+    name: "{{ fluentd_user }}"
+    groups: "{{ fluentd_secondary_groups }}"
+    append: true
+  when: fluentd_secondary_groups | length > 0
+  notify: restart fluentd
 
 - name: FLUENTD | Install fluentd plugin gems
   gem:
