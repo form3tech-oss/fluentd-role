@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/form3tech-oss/fluentd-role.svg?branch=master)](https://travis-ci.com/form3tech-oss/fluentd-role)
-
 # Fluentd Ansible role
 
 This Ansible role installs the [fluent-package](https://www.fluentd.org/) agent (fluentd v6, formerly `td-agent`) on Debian-based hosts, using the official codename-aware install script published by the Fluentd project.
