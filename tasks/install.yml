@@ -14,7 +14,9 @@
     force: true
 
 - name: FLUENTD | Install fluent-package
-  ansible.builtin.command: "{{ fluentd_install_script_dest }}"
+  # The upstream install script has no shebang line, so it must be invoked
+  # via an explicit interpreter rather than executed directly.
+  ansible.builtin.command: "/bin/sh {{ fluentd_install_script_dest }}"
   args:
     creates: "{{ fluentd_install_marker_path }}"
   notify: restart fluentd
