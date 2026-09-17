@@ -26,15 +26,10 @@
   notify: restart fluentd
 
 - name: FLUENTD | Write fluentd environment defaults
-  # fluent-package's shipped systemd unit already reads this file via
-  # `EnvironmentFile=-/etc/default/fluentd`, so environment variables
-  # (LOGZ_TOKEN, proxy settings, etc.) must be delivered here instead of
-  # via a custom fluentd.service unit, which would otherwise get replaced
-  # by the fluent-package apt package on install/upgrade.
-  template:
-    src: "{{ fluentd_default_template_path }}"
-    dest: /etc/default/fluentd
-    owner: root
-    group: root
-    mode: '0600'
+  ansible.builtin.lineinfile:
+    path: /etc/default/fluentd
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key }}=.*"
+    state: present
+  with_dict: "{{ fluentd_service_environment }}"
   notify: restart fluentd
