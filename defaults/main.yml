@@ -17,6 +17,13 @@ fluentd_service_state: started # current state: started, stopped, restarted, rel
 fluentd_service_enabled: yes # yes, no
 fluentd_service_environment: {} # dict: ENV_NAME=value
 
+# Templates path
+fluentd_playbook_templates_path: "{{ playbook_dir }}/templates/fluentd"
+# Resolved from this role's own templates/ dir (fluent-package ships its own
+# systemd unit; only the env file it reads via EnvironmentFile= is templated
+# here).
+fluentd_default_template_path: fluentd/fluentd.default.j2
+
 # fluent-package install. Uses the official, distribution-codename-aware
 # install script (e.g. jammy, noble) instead of a pinned .deb filename, since
 # the upstream apt-source package filename is rotated periodically.
