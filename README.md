@@ -63,7 +63,7 @@ ansible-galaxy install -p roles -r requirements.yml -f
 | `fluentd_log_rotate_age` | `5` | Number of rotated log files to keep. |
 | `fluentd_log_rotate_size` | `104857600` (100MB) | Size threshold that triggers log rotation. |
 | `fluentd_playbook_templates_path` | `{{ playbook_dir }}/templates/fluentd` | Path the calling playbook is expected to provide templates in, notably `fluent.conf.j2`. |
-| `fluentd_service_template_path` | `fluentd/fluentd.service.j2` | Template used to render the systemd unit, relative to this role's `templates/` directory. |
+| `fluentd_default_template_path` | `fluentd/fluentd.default.j2` | Template used to render `/etc/default/fluentd`, relative to this role's `templates/` directory. |
 
 ### Service
 
@@ -71,9 +71,9 @@ ansible-galaxy install -p roles -r requirements.yml -f
 |---|---|---|
 | `fluentd_service_state` | `started` | Desired state of the systemd service: `started`, `stopped`, `restarted`, `reloaded`. |
 | `fluentd_service_enabled` | `yes` | Whether the service is enabled on boot. |
-| `fluentd_service_environment` | `[]` | List of `ENV_NAME=value` strings injected into the systemd unit's environment. |
+| `fluentd_service_environment` | `[]` | List of `ENV_NAME=value` strings written to `/etc/default/fluentd`, which the `fluent-package` systemd unit loads via `EnvironmentFile=-/etc/default/fluentd`. |
 
-> The calling playbook must provide its own `fluent.conf.j2` under `fluentd_playbook_templates_path`; this role only manages installation, ownership of the config/log directories, and the systemd service lifecycle.
+> The calling playbook must provide its own `fluent.conf.j2` under `fluentd_playbook_templates_path`; this role only manages installation, ownership of the config/log directories, `/etc/default/fluentd`, and the systemd service lifecycle. It does not template the `fluentd.service` unit itself — that comes from the `fluent-package` apt package.
 
 ## Example Playbook
 

@@ -21,7 +21,10 @@ fluentd_service_environment: [] # list of strings: ENV_NAME=value
 
 # Templates path
 fluentd_playbook_templates_path: "{{ playbook_dir }}/templates/fluentd"
-fluentd_service_template_path: fluentd/fluentd.service.j2
+# Resolved from this role's own templates/ dir (fluent-package ships its own
+# systemd unit; only the env file it reads via EnvironmentFile= is templated
+# here).
+fluentd_default_template_path: fluentd/fluentd.default.j2
 
 # fluent-package install. Uses the official, distribution-codename-aware
 # install script (e.g. jammy, noble) instead of a pinned .deb filename, since

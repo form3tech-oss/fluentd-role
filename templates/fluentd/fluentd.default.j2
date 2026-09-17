@@ -1,0 +1,6 @@
+FLUENT_PACKAGE_OPTIONS=""
+# Control method to upgrade service (auto/manual) restart
+FLUENT_PACKAGE_SERVICE_RESTART=auto
+{% for env_var in fluentd_service_environment %}
+{{ env_var }}
+{% endfor %}

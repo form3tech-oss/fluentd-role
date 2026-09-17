@@ -17,6 +17,17 @@ file:
     owner: fluentd
     group: fluentd
     filetype: file
+  /etc/default/fluentd:
+    exists: true
+    mode: "0600"
+    owner: root
+    group: root
+    filetype: file
+  /lib/systemd/system/fluentd.service:
+    exists: true
+    filetype: file
+    contains:
+    - "EnvironmentFile=-/etc/default/fluentd"
 
 port:
   tcp:8888:
