@@ -5,17 +5,15 @@ fluentd_secondary_groups: []
 
 fluentd_conf_path: "/etc/fluent"
 fluentd_log_path: "/var/log/fluent"
-fluentd_log_file: "{{ fluentd_log_path }}/fluent.log"
 
 fluentd_plugins: []
-fluentd_plugins_required_libs: []
 
 # Service variables
 fluentd_service_state: started # current state: started, stopped, restarted, reloaded
 fluentd_service_enabled: yes # yes, no
-fluentd_service_environment: {} # dict: ENV_NAME=value
+fluentd_service_environment: {} # dict: ENV_NAME: value
 
-# Templates path
+# Templates path — calling playbook must provide fluent.conf.j2 here
 fluentd_playbook_templates_path: "{{ playbook_dir }}/templates/fluentd"
 
 # fluent-package install. Uses the official, distribution-codename-aware
