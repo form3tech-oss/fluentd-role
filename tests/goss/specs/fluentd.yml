@@ -19,7 +19,6 @@ file:
     filetype: file
   /etc/default/fluentd:
     exists: true
-    mode: "0600"
     owner: root
     group: root
     filetype: file

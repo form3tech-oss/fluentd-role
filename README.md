@@ -48,7 +48,7 @@ ansible-galaxy install -p roles -r requirements.yml -f
 | `fluentd_package_version` | `"6"` | Major `fluent-package` version line to install. |
 | `fluentd_package_channel` | `"lts"` | Release channel of the install script (e.g. `lts`). |
 | `fluentd_install_script_url` | codename-aware CNCF CDN URL | URL of the official install script, built from `ansible_distribution_release` (e.g. `jammy`, `noble`), `fluentd_package_version` and `fluentd_package_channel`. Override to pin an exact script if needed. |
-| `fluentd_install_script_dest` | `/tmp/install-fluent-package.sh` | Local path the install script is downloaded to before execution. |
+| `fluentd_install_script_dest` | `/var/tmp/install-fluent-package.sh` | Local path the install script is downloaded to before execution. |
 | `fluentd_install_marker_path` | `/opt/fluent/bin/fluentd` | Path used to detect whether `fluent-package` is already installed, so the install script only runs once. |
 | `fluentd_plugins` | `[]` | List of `{name, version}` gem plugins to install via `fluent-gem` (e.g. `fluent-plugin-systemd`). |
 | `fluentd_plugins_required_libs` | `[]` | List of additional `apt` packages required to build/install the plugin gems above. |
@@ -60,10 +60,7 @@ ansible-galaxy install -p roles -r requirements.yml -f
 | `fluentd_conf_path` | `/etc/fluent` | Directory where `fluentd.conf` is rendered. |
 | `fluentd_log_path` | `/var/log/fluent` | Directory used for fluentd's own logs. |
 | `fluentd_log_file` | `{{ fluentd_log_path }}/fluent.log` | Full path to fluentd's own log file. |
-| `fluentd_log_rotate_age` | `5` | Number of rotated log files to keep. |
-| `fluentd_log_rotate_size` | `104857600` (100MB) | Size threshold that triggers log rotation. |
 | `fluentd_playbook_templates_path` | `{{ playbook_dir }}/templates/fluentd` | Path the calling playbook is expected to provide templates in, notably `fluent.conf.j2`. |
-| `fluentd_default_template_path` | `fluentd/fluentd.default.j2` | Template used to render `/etc/default/fluentd`, relative to this role's `templates/` directory. |
 
 ### Service
 
@@ -71,9 +68,9 @@ ansible-galaxy install -p roles -r requirements.yml -f
 |---|---|---|
 | `fluentd_service_state` | `started` | Desired state of the systemd service: `started`, `stopped`, `restarted`, `reloaded`. |
 | `fluentd_service_enabled` | `yes` | Whether the service is enabled on boot. |
-| `fluentd_service_environment` | `[]` | List of `ENV_NAME=value` strings written to `/etc/default/fluentd`, which the `fluent-package` systemd unit loads via `EnvironmentFile=-/etc/default/fluentd`. |
+| `fluentd_service_environment` | `{}` | Dict of `ENV_NAME: value` entries written into `/etc/default/fluentd` via `lineinfile` (preserving the package stub). The `fluent-package` systemd unit loads this file via `EnvironmentFile=-/etc/default/fluentd`. |
 
-> The calling playbook must provide its own `fluent.conf.j2` under `fluentd_playbook_templates_path`; this role only manages installation, ownership of the config/log directories, `/etc/default/fluentd`, and the systemd service lifecycle. It does not template the `fluentd.service` unit itself — that comes from the `fluent-package` apt package.
+> The calling playbook must provide its own `fluent.conf.j2` under `fluentd_playbook_templates_path`; this role only manages installation, ownership of the config/log directories, `/etc/default/fluentd` environment entries, and the systemd service lifecycle. It does not template the `fluentd.service` unit itself — that comes from the `fluent-package` apt package.
 
 ## Example Playbook
 
