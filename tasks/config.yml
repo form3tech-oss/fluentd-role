@@ -24,3 +24,12 @@
     group: "{{ fluentd_group }}"
     mode: '0644'
   notify: restart fluentd
+
+- name: FLUENTD | Write fluentd environment defaults
+  ansible.builtin.lineinfile:
+    path: /etc/default/fluentd
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "^{{ item.key }}=.*"
+    state: present
+  with_dict: "{{ fluentd_service_environment }}"
+  notify: restart fluentd

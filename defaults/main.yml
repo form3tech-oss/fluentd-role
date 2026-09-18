@@ -3,25 +3,18 @@ fluentd_user: _fluentd
 fluentd_group: _fluentd
 fluentd_secondary_groups: []
 
-fluentd_version: "1.3.3"
-
 fluentd_conf_path: "/etc/fluent"
 fluentd_log_path: "/var/log/fluent"
-fluentd_log_file: "{{ fluentd_log_path }}/fluent.log"
-fluentd_log_rotate_age: 5
-fluentd_log_rotate_size: 104857600 # 100MB
 
 fluentd_plugins: []
-fluentd_plugins_required_libs: []
 
 # Service variables
 fluentd_service_state: started # current state: started, stopped, restarted, reloaded
 fluentd_service_enabled: yes # yes, no
-fluentd_service_environment: [] # list of strings: ENV_NAME=value
+fluentd_service_environment: {} # dict: ENV_NAME: value
 
-# Templates path
+# Templates path — calling playbook must provide fluent.conf.j2 here
 fluentd_playbook_templates_path: "{{ playbook_dir }}/templates/fluentd"
-fluentd_service_template_path: fluentd/fluentd.service.j2
 
 # fluent-package install. Uses the official, distribution-codename-aware
 # install script (e.g. jammy, noble) instead of a pinned .deb filename, since
@@ -30,5 +23,5 @@ fluentd_package_version: "6"
 fluentd_package_channel: "lts"
 fluentd_install_script_url: >-
   https://fluentd.cdn.cncf.io/sh/install-ubuntu-{{ ansible_distribution_release }}-fluent-package{{ fluentd_package_version }}-{{ fluentd_package_channel }}.sh
-fluentd_install_script_dest: "/tmp/install-fluent-package.sh"
+fluentd_install_script_dest: "/var/tmp/install-fluent-package.sh"
 fluentd_install_marker_path: "/opt/fluent/bin/fluentd"
