@@ -80,7 +80,7 @@ so custom env vars (tokens, proxies, etc.) must go in `/etc/default/fluentd`, no
 |---|---|---|
 | `fluentd_service_state` | `started` | Desired state of the systemd service: `started`, `stopped`, `restarted`, `reloaded`. |
 | `fluentd_service_enabled` | `yes` | Whether the service is enabled on boot. |
-| `fluentd_service_environment` | `{}` | Dict of `ENV_NAME: value` entries upserted into `/etc/default/fluentd` with `lineinfile` (package stub keys such as `FLUENT_PACKAGE_OPTIONS` are preserved). Loaded by the package unit via `EnvironmentFile=-/etc/default/fluentd`. |
+| `fluentd_service_environment` | `{}` | Dict of `ENV_NAME: value` entries upserted into `/etc/default/fluentd` with `lineinfile` (package stub keys such as `FLUENT_PACKAGE_OPTIONS` are preserved). File is kept `root:root` `0600`. Loaded by the package unit via `EnvironmentFile=-/etc/default/fluentd`. |
 
 > The calling playbook **must** provide its own `fluent.conf.j2` under `fluentd_playbook_templates_path`.
 

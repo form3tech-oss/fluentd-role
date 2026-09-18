@@ -33,3 +33,10 @@
     state: present
   with_dict: "{{ fluentd_service_environment }}"
   notify: restart fluentd
+
+- name: FLUENTD | Restrict fluentd environment defaults permissions
+  ansible.builtin.file:
+    path: /etc/default/fluentd
+    owner: root
+    group: root
+    mode: '0600'
